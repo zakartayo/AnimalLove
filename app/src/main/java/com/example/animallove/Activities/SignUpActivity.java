@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.animallove.MainActivity;
 import com.example.animallove.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,112 +21,103 @@ import com.google.firebase.auth.FirebaseAuth;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class Login extends AppCompatActivity {
-    private static final int REQUEST_SIGNUP = 0;
-    private static final String TAG = "LoginActivity";
+public class SignUpActivity extends AppCompatActivity {
+
+    private static final String TAG = "SignupActivity";
 
     @InjectView(R.id.input_email)
     EditText _emailText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_login)
-    Button _loginButton;
+    @InjectView(R.id.input_password)
+    EditText _passwordText;
     @InjectView(R.id.btn_signup)
-    TextView _signupLink;
+    Button _signupButton;
+    @InjectView(R.id.link_login)
+    TextView _loginLink;
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        mAuth = FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_sign_up);
 
         ButterKnife.inject(this);
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+        mAuth = FirebaseAuth.getInstance();
 
+        if(mAuth.getCurrentUser() != null){
+            /*이미 로그인 되었다면 이 액티비티를 종료함
+            finish();
+            //그리고 profile 액티비티를 연다.
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class)); */
+        }
+
+
+        _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                signup();
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
+        _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                // Finish the registration screen and return to the Login activity
+                finish();
             }
         });
     }
 
-    public void login() {
-        Log.d(TAG, "Login");
+    public void signup() {
 
         if (!validate()) {
-            onLoginFailed();
+            onSignupFailed();
             return;
         }
 
-        _loginButton.setEnabled(false);
+        _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(Login.this,
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("잠시만 기다려 주십시오...");
+        progressDialog.setMessage("회원가입 진행중...");
         progressDialog.show();
 
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-                                    onLoginSuccess();
-                                    // onLoginFailed();
+                                    // On complete call either onSignupSuccess or onSignupFailed
+                                    // depending on success
+                                    onSignupSuccess();
+                                    // onSignupFailed();
                                     progressDialog.dismiss();
                                 }
                             }, 3000);
-                }else{
-                    Toast.makeText(getApplication(), "비밀번호가 올바르지 않습니다", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SignUpActivity.this, "이미 등록된 이메일이거나 암호가 6자리 미만입니다", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
         });
 
 
-
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-                //this.finish();
-            }
-        }
+    public void onSignupSuccess() {
+        _signupButton.setEnabled(true);
+        setResult(RESULT_OK, null);
+        finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
-
-    public void onLoginSuccess() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "로그인에 실패하였습니다", Toast.LENGTH_LONG).show();
-
+    public void onSignupFailed() {
+        Toast.makeText(getBaseContext(), "회원가입에 실패했습니다", Toast.LENGTH_LONG).show();
     }
 
     public boolean validate() {
@@ -136,15 +126,16 @@ public class Login extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
+
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("이메일 형식에 맞추어 내용을 기입해주세요");
+            _emailText.setError("enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("4~10 자리의 비밀번호를 입력해주세요");
+            _passwordText.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "262290364987",
+    "firebase_url": "https://animallove-63f5c.firebaseio.com",
+    "project_id": "animallove-63f5c",
+    "storage_bucket": "animallove-63f5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262290364987:android:eda0014a23af75e2",
+        "android_client_info": {
+          "package_name": "com.example.animallove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262290364987-vsamo9os403aq3ituonqch17rstcua7a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.animallove",
+            "certificate_hash": "57a3e811a20d1b4880b7bc14447803ddfc601738"
+          }
+        },
+        {
+          "client_id": "262290364987-7vcgatkptjva5cfsj35qirnfqjjkraem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxBxReGhswIZiEk3Yd-uN1lGANLO5VuSM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262290364987-7vcgatkptjva5cfsj35qirnfqjjkraem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
