@@ -70,7 +70,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(Login.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -123,6 +122,7 @@ public class Login extends AppCompatActivity {
     public void onLoginSuccess() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void onLoginFailed() {
