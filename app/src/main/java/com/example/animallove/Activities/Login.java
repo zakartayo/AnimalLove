@@ -70,7 +70,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-
         final ProgressDialog progressDialog = new ProgressDialog(Login.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -95,15 +94,12 @@ public class Login extends AppCompatActivity {
                             }, 3000);
                 }else{
                     Toast.makeText(getApplication(), "비밀번호가 올바르지 않습니다", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
         });
 
-
-
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
