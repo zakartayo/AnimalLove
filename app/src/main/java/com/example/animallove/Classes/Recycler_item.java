@@ -5,18 +5,33 @@ package com.example.animallove.Classes;
  */
 
 public class Recycler_item {
-    private int image;
-    private String title;
+    private String image,name, region, gender, kind, desc;
 
-    public int getImage(){
+    public String getImage(){
         return this.image;
     }
-    public String getTitle(){
-        return this.title;
+    public String getName(){
+        return this.name;
+    }
+    public String getRegion(){
+        return this.region;
+    }
+    public String getGender(){
+        return this.gender;
+    }
+    public String getKind(){
+        return this.kind;
+    }
+    public String getDesc(){
+        return this.desc;
     }
 
-    public Recycler_item(int image, String title){
+    public Recycler_item(String image, String name, String region, String gender, String kind, String desc){
         this.image=image;
-        this.title=title;
+        this.name=name;
+        this.region=region;
+        this.gender=gender;
+        this.kind=kind;
+        this.desc=desc;
     }
 }
