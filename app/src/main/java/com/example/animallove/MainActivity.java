@@ -1,6 +1,8 @@
 package com.example.animallove;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private RecyclerView recyclerView;
-    private Button write;
+    private Button write, search;
     private List<Recycler_item> items=new ArrayList<>();
+    final CharSequence[] genders = {"수컷", "암컷"}; // 검색용
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         write = (Button)findViewById(R.id.write);
+        search = (Button)findViewById(R.id.btn_search);
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
@@ -47,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, WriteActivity.class);
                 startActivity(intent);
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("성별을 선택하세요")
+                       .setSingleChoiceItems(genders, -1, new DialogInterface.OnClickListener(){
+
+                            public void onClick(DialogInterface dialog, int index){
+                                //Toast.makeText(getApplicationContext(), items[index], Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
@@ -77,5 +97,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 }
