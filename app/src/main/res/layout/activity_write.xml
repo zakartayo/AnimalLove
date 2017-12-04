@@ -7,62 +7,112 @@
     android:orientation="vertical"
     tools:context="com.example.animallove.Activities.WriteActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/bt_upload"
-            android:text="글쓰기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/bt_choose"
-            android:text="사진 검색"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <!--이미지 출력-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <ImageView
-            android:id="@+id/iv_preview"
-            android:layout_width="match_parent"
+            android:id="@+id/photo"
+            android:layout_width="200dp"
+            android:layout_height="170dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/image_border"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:text="photo choose"
+            android:layout_marginLeft="50dp"
+            android:id="@+id/photobtn"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="50dp"
+        android:text="name"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="300dp"
+        android:singleLine="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:text="title"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
         <EditText
-            android:id="@+id/write_name"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/write_region"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/write_gender"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/write_kind"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp"/>
-        <EditText
-            android:id="@+id/write_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_width="300dp"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            />
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:text="gender"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:id="@+id/gender"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:text="area"
+            android:layout_marginLeft="10dp"
+            android:focusable="false"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:id="@+id/area"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:text="species"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/species"
+            android:focusable="false"
+            android:layout_marginRight="10dp"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="250dp"
+        android:id="@+id/commit"
+        android:text="글쓰기"/>
 </LinearLayout>
