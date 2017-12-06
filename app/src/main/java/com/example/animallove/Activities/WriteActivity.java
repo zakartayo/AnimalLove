@@ -50,7 +50,7 @@ public class WriteActivity extends AppCompatActivity {
     private EditText animalArea;
     private EditText animalSpecies;
 
-    private String [] gender = {"수컷", "암컷"};
+    private String [] gender = {"Male", "Female"};
     private String[] arrText = {"species", "area", "gender"};
     private String[] area = {"서울","경기","부산","광주","대구","대전","강원"};
     private String[] species={"푸들","말티즈","시추","포메라니안","웰시코기","슈나우저"};
@@ -94,13 +94,13 @@ public class WriteActivity extends AppCompatActivity {
                 ab.setSingleChoiceItems(gender, 2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        animalGender.setText(gender[i]);
+
                     }
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                        animalGender.setText(gender[i+1]);
                     }
                 }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -118,11 +118,11 @@ public class WriteActivity extends AppCompatActivity {
                 ab.setSingleChoiceItems(area, 9, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        animalArea.setText(area[i]);
                     }
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        animalArea.setText(area[i+1]);
                     }
                 }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -223,7 +223,7 @@ public class WriteActivity extends AppCompatActivity {
             String title = animalTitle.getText().toString();
             String animal_Name = animalName.getText().toString();
             String animal_Area =animalArea.getText().toString();
-            String animal_Gender =animalGender.getText().toString();
+            String animal_Gender =animalArea.getText().toString();
             String animal_Species = animalSpecies.getText().toString();
             onWriteData(filename, animal_Name, animal_Area, animal_Gender, animal_Species, title);
 
@@ -253,7 +253,7 @@ public class WriteActivity extends AppCompatActivity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             @SuppressWarnings("VisibleForTests")
-                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
                         }
                     });
