@@ -1,5 +1,6 @@
 package com.example.animallove.Activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,7 +40,7 @@ public class WriteActivity extends AppCompatActivity {
     private Button btChoose;
     private Button btUpload;
     private EditText animalName;
-    private EditText animalTitle;
+    private EditText animalContents;
     private ImageView ivPreview, ivDown;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
@@ -49,24 +49,23 @@ public class WriteActivity extends AppCompatActivity {
     private EditText animalGender;
     private EditText animalArea;
     private EditText animalSpecies;
-
-    private String [] gender = {"Male", "Female"};
-    private String[] arrText = {"species", "area", "gender"};
-    private String[] area = {"서울","경기","부산","광주","대구","대전","강원"};
-    private String[] species={"푸들","말티즈","시추","포메라니안","웰시코기","슈나우저"};
+    private String getSpecies;
+    private String getArea;
+    private String getGender;
+    private String [] gender = {"수컷", "암컷"};
+    private String[] species={"닥스훈트","말티즈","비글","비숑프리제","스파니엘","시추","슈나우저","웰시코기","요크셔테리어",
+            "치와와","코카스파니엘","프렌치불독","푸들","포메라니안","페키니즈","기타"};
     private Uri filePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-
         btChoose = (Button) findViewById(R.id.photobtn);
         btUpload = (Button) findViewById(R.id.commit);
         ivPreview = (ImageView) findViewById(R.id.photo);
-        //ivDown = (ImageView)findViewById(R.id.iv_down);
         animalName =(EditText)findViewById(R.id.name);
-        animalTitle =(EditText)findViewById(R.id.title);
+        animalContents =(EditText)findViewById(R.id.shipper_field);
         animalGender =(EditText)findViewById(R.id.gender);
         animalArea=(EditText)findViewById(R.id.area);
         animalSpecies=(EditText)findViewById(R.id.species);
@@ -84,75 +83,101 @@ public class WriteActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
-
             }
         });
+
         animalGender.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                ab.setTitle("성별을 선택해주세요");
-                ab.setSingleChoiceItems(gender, 2, new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(WriteActivity.this);
+                final AlertDialog alertd = alert.create();
+                alert.setTitle("성별을 선택해주세요");
+                alert.setSingleChoiceItems(gender, 2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        getGender = gender[i];
                     }
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        animalGender.setText(getGender);
+                        animalArea.requestFocus();
 
-                        animalGender.setText(gender[i+1]);
                     }
                 }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.cancel();
+                        alertd.dismiss();
                     }
                 });
-                ab.show();
+                alert.show();
             }
         });
         animalArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ab.setTitle("지역을 선택해주세요");
-                ab.setSingleChoiceItems(area, 9, new DialogInterface.OnClickListener() {
+
+                hideKeyBoard();
+                final AlertDialog.Builder alert = new AlertDialog.Builder(WriteActivity.this);
+                final AlertDialog alertd = alert.create();
+                alert.setTitle("지역을 입력해주세요");
+                alert.setMessage("ex)서울, 부산");
+                final EditText et = new EditText(WriteActivity.this);
+                alert.setView(et);
+                alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        animalArea.setText(area[i+1]);
+                        getArea = (et.getText().toString());
+                        animalArea.setText(getArea);
+                        animalSpecies.requestFocus();
                     }
                 }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.cancel();
+                        alertd.dismiss();
                     }
                 });
-                ab.show();
+                alert.show();
             }
+
         });
         animalSpecies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ab.setTitle("종을 선택해주세요");
-                ab.setSingleChoiceItems(species, 9, new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(WriteActivity.this);
+                final AlertDialog alertd = alert.create();
+                hideKeyBoard();
+                alert.setTitle("종을 선택해주세요");
+                alert.setSingleChoiceItems(species, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        getSpecies = species[i];
                     }
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        animalSpecies.setText(species[i+1]);
+                        if(getSpecies.equals("기타")){
+                            dialogInterface.cancel();
+                            alertd.dismiss();
+                            dialog();
+
+                        }
+                        else {
+                            animalSpecies.setText(getSpecies);
+                            animalContents.requestFocus();
+                        }
                     }
                 }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.cancel();
+                        alertd.dismiss();
                     }
                 });
-                ab.show();
+                alert.show();
             }
         });
 
@@ -168,26 +193,31 @@ public class WriteActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getKeyCode()== KeyEvent.KEYCODE_ENTER){
-                    hideKeyBoard(animalName);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+                    animalGender.requestFocus();
+
                     return true;
                 }
                 return false;
             }
         });
-        animalTitle.setOnKeyListener(new View.OnKeyListener() {
+        animalContents.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getKeyCode()== KeyEvent.KEYCODE_ENTER){
-                    hideKeyBoard(animalName);
+                    hideKeyBoard();
                     return true;
                 }
                 return false;
             }
         });
+
     }
-    private void hideKeyBoard (EditText e){
+
+    private void hideKeyBoard (){
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(e.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
     //결과 처리
     @Override
@@ -205,6 +235,28 @@ public class WriteActivity extends AppCompatActivity {
             }
         }
     }
+    private void dialog(){
+
+        ab.setTitle("종을 입력해주세요");
+        ab.setMessage("");
+        final EditText et = new EditText(WriteActivity.this);
+        ab.setView(et);
+        ab.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getSpecies = et.getText().toString();
+                animalSpecies.setText(getSpecies);
+                animalContents.requestFocus();
+            }
+        });
+        ab.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        ab.show();
+    }
 
     //upload the file
     private void uploadFile() {
@@ -220,12 +272,10 @@ public class WriteActivity extends AppCompatActivity {
 
             String filename = formatter.format(now) + ".png";
 
-            String title = animalTitle.getText().toString();
+            String title = animalContents.getText().toString();
             String animal_Name = animalName.getText().toString();
-            String animal_Area =animalArea.getText().toString();
-            String animal_Gender =animalArea.getText().toString();
-            String animal_Species = animalSpecies.getText().toString();
-            onWriteData(filename, animal_Name, animal_Area, animal_Gender, animal_Species, title);
+            String animal_Gender =animalGender.getText().toString();
+            onWriteData(filename, animal_Name, getArea, animal_Gender, getSpecies, title);
 
             //storage 주소와 폴더 파일명을 지정해 준다.
             StorageReference storageRef = storage.getReferenceFromUrl("gs://animallove-63f5c.appspot.com").child(filename);
@@ -275,6 +325,4 @@ public class WriteActivity extends AppCompatActivity {
         myRef.child(key).child("desc").setValue(desc);
 
     }
-
 }
-
