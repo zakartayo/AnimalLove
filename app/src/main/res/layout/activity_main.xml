@@ -19,12 +19,6 @@
             android:layout_height="wrap_content"
             android:textSize="11sp"
             android:text="검색" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="9sp"
-            android:layout_marginLeft="5dp"
-            android:text="(성별, 지역)"/>
         <Button
             android:id="@+id/write"
             style="@style/btnStyleAcapulco"

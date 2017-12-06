@@ -49,8 +49,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Recycler_item item=items.get(position);
-        final long ONE_MEGABYTE = 1024 * 1024;
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://animallove-63f5c.appspot.com/").child(item.getImage());
+        final long ONE_MEGABYTE = 1024 * 1024 * 5;
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://animallove-63f5c.appspot.com").child(item.getImage());
         storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -63,7 +63,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.region.setText(item.getRegion());
         holder.gender.setText(item.getGender());
         holder.kind.setText(item.getKind());
-        holder.desc.setText(item.getDesc());
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +89,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             region=(TextView)itemView.findViewById(R.id.region);
             gender=(TextView)itemView.findViewById(R.id.gender);
             kind=(TextView)itemView.findViewById(R.id.kind);
-            desc=(TextView)itemView.findViewById(R.id.desc);
             cardview=(CardView)itemView.findViewById(R.id.cardview);
         }
     }

@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button write, search;
     private List<Recycler_item> items=new ArrayList<>();
-    final CharSequence[] genders = {"수컷", "암컷"}; // 검색용
+    private AlertDialog.Builder ab;
+    private final String[] gender = {"수컷", "암컷", "전체"}; // 검색용
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         write = (Button)findViewById(R.id.write);
         search = (Button)findViewById(R.id.btn_search);
+        ab = new AlertDialog.Builder(MainActivity.this);
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
@@ -56,17 +58,27 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("성별을 선택하세요")
-                       .setSingleChoiceItems(genders, -1, new DialogInterface.OnClickListener(){
+                ab.setTitle("성별을 선택해주세요");
+                ab.setSingleChoiceItems(gender, 3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(gender[i].equals("수컷") ||  gender[i].equals("암컷"))
+                            search_show(gender[i]);
+                        else
+                            show();
+                    }
+                }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                            public void onClick(DialogInterface dialog, int index){
-                                //Toast.makeText(getApplicationContext(), items[index], Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    }
+                }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    }
+                });
+                ab.show();
             }
         });
     }
@@ -97,8 +109,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void search_show(final String search) {
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("data");
+        Query contacts = myRef;
+        contacts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                items.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
 
+                    String img = snapshot.child("img").getValue(String.class);
+                    String name = snapshot.child("name").getValue(String.class);
+                    String region = snapshot.child("region").getValue(String.class);
+                    String gender = snapshot.child("gender").getValue(String.class);
+                    String kind = snapshot.child("kind").getValue(String.class);
+                    String desc = snapshot.child("desc").getValue(String.class);
 
-
+                    if(gender.equals(search)){
+                        items.add(new Recycler_item(img,name, region, gender, kind, desc));
+                        recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
 
 }
+
+
+
