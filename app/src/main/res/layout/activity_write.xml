@@ -46,24 +46,7 @@
                 android:id="@+id/name"
                 />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="50dp"
-                android:text="성별"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:editable="false"
-                android:inputType="none"
-                android:id="@+id/gender"
-                />
-        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,6 +65,26 @@
                 android:id="@+id/area"
                 />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="50dp"
+                android:text="성별"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:editable="false"
+                android:inputType="none"
+                android:id="@+id/gender"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
