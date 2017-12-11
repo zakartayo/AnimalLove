@@ -36,9 +36,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_kind"
+                android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textSize="13sp"/>
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -66,9 +67,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_name"
+                android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textSize="13sp"/>
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -96,9 +98,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_gender"
+                android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textSize="13sp"/>
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -126,9 +129,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_region"
+                android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textSize="13sp"/>
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -157,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/item_email"
                 android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:gravity="right"
                 android:textSize="13sp"/>
 
@@ -180,12 +185,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 android:id="@+id/item_text"/>
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="15dp"
                 android:id="@+id/gmail"
                 android:src="@drawable/gmail"/>
 
