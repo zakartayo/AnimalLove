@@ -398,7 +398,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 getSpecies = et.getText().toString();
                 animalSpecies.setText(getSpecies);
-                animalContents.requestFocus();
+                chooseEmail();
                 num1++;
             }
         });
