@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.animallove.MainActivity;
 import com.example.animallove.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,7 +40,7 @@ public class WriteActivity extends AppCompatActivity {
     private Button btUpload;
     private EditText animalName;
     private EditText animalContents;
-    private ImageView ivPreview, ivDown;
+    private ImageView ivPreview;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -49,9 +48,11 @@ public class WriteActivity extends AppCompatActivity {
     private EditText animalGender;
     private EditText animalArea;
     private EditText animalSpecies;
+    private EditText animalEmail;
     private String getSpecies;
     private String getArea;
     private String getGender;
+    private String getEmail;
     private String [] gender = {"수컷", "암컷"};
     private String[] species={"닥스훈트","말티즈","비글","비숑프리제","스파니엘","시추","슈나우저","웰시코기","요크셔테리어",
             "치와와","코카스파니엘","프렌치불독","푸들","포메라니안","페키니즈","기타"};
@@ -70,6 +71,7 @@ public class WriteActivity extends AppCompatActivity {
         animalContents =(EditText)findViewById(R.id.shipper_field);
         animalGender =(EditText)findViewById(R.id.gender);
         animalArea=(EditText)findViewById(R.id.area);
+        animalEmail=(EditText)findViewById(R.id.input_email);
         animalSpecies=(EditText)findViewById(R.id.species);
         ab = new AlertDialog.Builder(WriteActivity.this);
 
@@ -173,6 +175,35 @@ public class WriteActivity extends AppCompatActivity {
                         }
                         else {
                             animalSpecies.setText(getSpecies);
+                            chooseEmail();
+                        }
+                    }
+                }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        alertd.dismiss();
+                    }
+                });
+                alert.show();
+            }
+        });
+        animalEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                hideKeyBoard();
+                final AlertDialog.Builder alert = new AlertDialog.Builder(WriteActivity.this);
+                final AlertDialog alertd = alert.create();
+                alert.setTitle("E-mail을 입력해주세요");
+                final EditText et = new EditText(WriteActivity.this);
+                alert.setView(et);
+                alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getEmail = (et.getText().toString());
+                        animalEmail.setText(getEmail);
+                        if(num1==1) {
                             animalContents.requestFocus();
                         }
                     }
@@ -185,6 +216,7 @@ public class WriteActivity extends AppCompatActivity {
                 });
                 alert.show();
             }
+
         });
 
 
@@ -267,7 +299,7 @@ public class WriteActivity extends AppCompatActivity {
                 }
                 else {
                     animalSpecies.setText(getSpecies);
-                    animalContents.requestFocus();
+                    chooseEmail();
                 }
             }
         }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -294,6 +326,30 @@ public class WriteActivity extends AppCompatActivity {
                 getArea = (et.getText().toString());
                 animalArea.setText(getArea);
                 chooseGender();
+            }
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+                alertd.dismiss();
+            }
+        });
+        alert.show();
+    }
+
+    private void chooseEmail() {
+        hideKeyBoard();
+        final AlertDialog.Builder alert = new AlertDialog.Builder(WriteActivity.this);
+        final AlertDialog alertd = alert.create();
+        alert.setTitle("E-mail을 입력해주세요");
+        final EditText et = new EditText(WriteActivity.this);
+        alert.setView(et);
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getEmail = (et.getText().toString());
+                animalEmail.setText(getEmail);
+                animalContents.requestFocus();
             }
         }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -369,10 +425,10 @@ public class WriteActivity extends AppCompatActivity {
 
             String filename = formatter.format(now) + ".png";
 
-            String title = animalContents.getText().toString();
+            String contest = animalContents.getText().toString();
             String animal_Name = animalName.getText().toString();
             String animal_Gender =animalGender.getText().toString();
-            onWriteData(filename, animal_Name, getArea, animal_Gender, getSpecies, title);
+            onWriteData(filename, animal_Name, getArea, animal_Gender, getSpecies, getEmail, contest);
 
             //storage 주소와 폴더 파일명을 지정해 준다.
             StorageReference storageRef = storage.getReferenceFromUrl("gs://animallove-63f5c.appspot.com").child(filename);
@@ -409,7 +465,7 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-    public void onWriteData(String img, String name, String region, String gender, String kind, String desc ) {
+    public void onWriteData(String img, String name, String region, String gender, String kind, String email, String desc ) {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("data");
         String key = myRef.push().getKey();
@@ -419,6 +475,7 @@ public class WriteActivity extends AppCompatActivity {
         myRef.child(key).child("region").setValue(region);
         myRef.child(key).child("gender").setValue(gender);
         myRef.child(key).child("kind").setValue(kind);
+        myRef.child(key).child("email").setValue(email);
         myRef.child(key).child("desc").setValue(desc);
 
     }

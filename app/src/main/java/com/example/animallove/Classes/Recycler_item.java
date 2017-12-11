@@ -5,7 +5,7 @@ package com.example.animallove.Classes;
  */
 
 public class Recycler_item {
-    private String image,name, region, gender, kind, desc;
+    private String image,name, region, gender, kind, email, desc;
 
     public String getImage(){
         return this.image;
@@ -22,16 +22,20 @@ public class Recycler_item {
     public String getKind(){
         return this.kind;
     }
+    public String getEmail(){
+        return this.email;
+    }
     public String getDesc(){
         return this.desc;
     }
 
-    public Recycler_item(String image, String name, String region, String gender, String kind, String desc){
+    public Recycler_item(String image, String name, String region, String gender, String kind, String email, String desc){
         this.image=image;
         this.name=name;
         this.region=region;
         this.gender=gender;
         this.kind=kind;
+        this.email = email;
         this.desc=desc;
     }
 }

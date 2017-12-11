@@ -2,6 +2,7 @@ package com.example.animallove.Adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -14,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.animallove.Activities.ItemActivity;
 import com.example.animallove.Classes.Recycler_item;
 import com.example.animallove.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,7 +70,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context,item.getTitle(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ItemActivity.class);
+                ArrayList<String> data = new ArrayList<String>();
+
+                data.add(item.getKind());
+                data.add(item.getName());
+                data.add(item.getGender());
+                data.add(item.getRegion());
+                data.add(item.getImage());
+                data.add(item.getEmail());
+                data.add(item.getDesc());
+
+                intent.putExtra("data", data);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                context.startActivity(intent);
             }
         });
     }

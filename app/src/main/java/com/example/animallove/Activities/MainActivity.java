@@ -1,4 +1,4 @@
-package com.example.animallove;
+package com.example.animallove.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,18 +8,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 
-import com.example.animallove.Activities.WriteActivity;
 import com.example.animallove.Adapter.RecyclerAdapter;
 import com.example.animallove.Classes.Recycler_item;
+import com.example.animallove.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private RecyclerView recyclerView;
-    private Button write, search;
+    private ImageView write, search;
     private List<Recycler_item> items=new ArrayList<>();
     private AlertDialog.Builder ab;
     private final String[] gender = {"수컷", "암컷", "전체"}; // 검색용
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        write = (Button)findViewById(R.id.write);
-        search = (Button)findViewById(R.id.btn_search);
+        write = (ImageView)findViewById(R.id.btn_write);
+        search = (ImageView)findViewById(R.id.btn_search);
         ab = new AlertDialog.Builder(MainActivity.this);
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
@@ -98,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
                     String region = snapshot.child("region").getValue(String.class);
                     String gender = snapshot.child("gender").getValue(String.class);
                     String kind = snapshot.child("kind").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
                     String desc = snapshot.child("desc").getValue(String.class);
 
-                    items.add(new Recycler_item(img,name, region, gender, kind, desc));
+                    items.add(new Recycler_item(img,name, region, gender, kind, email, desc));
                     recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main));
                 }
             }
@@ -124,10 +124,11 @@ public class MainActivity extends AppCompatActivity {
                     String region = snapshot.child("region").getValue(String.class);
                     String gender = snapshot.child("gender").getValue(String.class);
                     String kind = snapshot.child("kind").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
                     String desc = snapshot.child("desc").getValue(String.class);
 
                     if(gender.equals(search)){
-                        items.add(new Recycler_item(img,name, region, gender, kind, desc));
+                        items.add(new Recycler_item(img,name, region, gender, kind, email, desc));
                         recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(),items,R.layout.activity_main));
                     }
                 }

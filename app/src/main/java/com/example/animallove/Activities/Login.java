@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.animallove.MainActivity;
 import com.example.animallove.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +92,7 @@ public class Login extends AppCompatActivity {
                                 }
                             }, 3000);
                 }else{
-                    Toast.makeText(getApplication(), "비밀번호가 올바르지 않습니다", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplication(), "Email 혹은 비밀번호가 올바르지 않습니다", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             }

@@ -5,28 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.animallove.MainActivity">
+    tools:context="com.example.animallove.Activities.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
+            android:id="@+id/dogs"
+            android:src="@drawable/dogs"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="200dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="45dp"/>
+
+        <ImageView
             android:id="@+id/btn_search"
-            style="@style/btnStyleAcapulco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="검색" />
-        <Button
-            android:id="@+id/write"
-            style="@style/btnStyleAcapulco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="11sp"
-            android:text="글쓰기" />
+            android:src="@drawable/search"
+            android:scaleType="fitXY"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+        <ImageView
+            android:id="@+id/btn_write"
+            android:src="@drawable/write"
+            android:layout_marginLeft="3dp"
+            android:scaleType="fitXY"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
 
     </LinearLayout>
 
